@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/api/config", "destination": "/api/config.js" },
+    { "source": "/api/render", "destination": "/api/render.js" },
+    { "source": "/api/mapbox", "destination": "/api/mapbox.js" },
+    { "source": "/(.*)",       "destination": "/public/index.html" }
+  ]
+}
