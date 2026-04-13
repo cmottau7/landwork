@@ -1143,9 +1143,36 @@ function buildLandscapePrompt(selected, zones, address) {
 }
 
 // ── STABILITY AI IMG2IMG ──────────────────────────────────────────────────────
+// Resize image to max 1024px on longest side and convert to JPEG at 0.85 quality
+// Stability SDXL is trained at 1024x1024 and rejects payloads over ~10MB
+async function resizeImageForStability(dataUrl) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const MAX = 1024;
+      let w = img.naturalWidth, h = img.naturalHeight;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      // SDXL requires dimensions divisible by 64
+      w = Math.floor(w / 64) * 64 || 64;
+      h = Math.floor(h / 64) * 64 || 64;
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = dataUrl;
+  });
+}
+
 async function renderWithStability(photoDataUrl, prompt, negativePrompt, onProgress) {
-  // Convert data URL to blob
-  const res = await fetch(photoDataUrl);
+  onProgress && onProgress(5);
+
+  // Resize to SDXL-compatible dimensions before sending
+  const resizedDataUrl = await resizeImageForStability(photoDataUrl);
+  const res = await fetch(resizedDataUrl);
   const blob = await res.blob();
 
   const form = new FormData();
