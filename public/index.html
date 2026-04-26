@@ -171,10 +171,12 @@ input { font-family: var(--font-body); }
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 32px 20px 24px;
+    text-align: center;
   }
   .home-art { display: none; }
   .home-headline { font-size: 36px; }
-  .home-sub { font-size: 15px; margin-bottom: 24px; }
+  .home-sub { font-size: 15px; margin-bottom: 24px; max-width: 100%; margin-left: auto; margin-right: auto; }
+  .home-hero-text { display: flex; flex-direction: column; align-items: center; }
   .home-steps { grid-template-columns: 1fr 1fr; }
   .home-step { padding: 18px 16px; }
 
