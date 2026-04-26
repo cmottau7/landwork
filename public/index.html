@@ -1128,7 +1128,7 @@ function ShoppingList(){
       )
     ),
     h('div',{style:{flex:1,display:'flex',overflow:'hidden'}},
-      h('aside',{style:{className:'split-sidebar'}},
+      h('aside',{className:'split-sidebar'},
         h('div',{style:{background:'var(--c-cream)',border:'1px solid var(--c-fog)',borderRadius:'var(--r-lg)',padding:14}},
           ...[{l:'Total plants',v:totalPlants},{l:'Varieties',v:selected.length},{l:'Available at HD',v:`${selected.filter(p=>p.plant.sku).length} of ${selected.length}`,c:'var(--c-leaf)'},{l:'Est. subtotal',v:'$'+totalCost.toFixed(2),big:true},{l:'In-store total',v:'$'+inStockCost.toFixed(2),c:'var(--c-leaf)'}].map((r,i)=>h('div',{key:i,style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:i<4?7:0,paddingTop:i===3?7:0,borderTop:i===3?'1px solid var(--c-fog)':0}},
             h('span',{style:{fontSize:12,color:'var(--c-stone)'}},(r.l)),
@@ -1227,14 +1227,14 @@ function StoreAvailability(){
       h('span',{style:{fontSize:13,color:'var(--c-stone)'}},`${selected.length} varieties · $${totalCost.toFixed(2)}`)
     ),
     h('div',{style:{flex:1,display:'flex',overflow:'hidden'}},
-      h('aside',{style:{className:'split-sidebar'}},
+      h('aside',{className:'split-sidebar'},
         h('div',{style:{display:'flex',gap:8}},
           h('input',{defaultValue:zip,placeholder:'ZIP code',onKeyDown:e=>e.key==='Enter'&&geocode(e.target.value),inputMode:'numeric',pattern:'[0-9]*',autoComplete:'postal-code',style:{flex:1,padding:'8px 11px',border:'1px solid var(--c-fog)',borderRadius:'var(--r-sm)',fontSize:13,background:'var(--c-cream)',color:'var(--c-soil)',outline:'none'}}),
           h('button',{className:'btn-primary',style:{padding:'8px 12px',fontSize:12},disabled:loading,onClick:e=>geocode(e.target.previousSibling.value)},loading?'...':'Find')
         ),
         userLoc&&h('p',{style:{fontSize:12,color:'var(--c-stone)'}},'Showing stores near '+userLoc.zip),
         ...sorted.map(store=>h('button',{key:store.id,onClick:()=>setSelStore(store),
-          style:{padding:11,border:`1px solid ${active?.id===store.id?'var(--c-leaf)':'var(--c-fog)'}`,borderRadius:'var(--r-md)',background:active?.id===store.id?'var(--c-leaf-light)':'var(--c-cream)',textAlign:'left',position:'relative',transition:'all .1s'}
+          style:{padding:11,border:`1px solid ${active?.id===store.id?'var(--c-leaf)':'var(--c-fog)'}`,borderRadius:'var(--r-md)',background:active?.id===store.id?'var(--c-leaf-light)':'var(--c-cream)',textAlign:'left',position:'relative',transition:'all .1s',width:'100%',display:'block'}
         },
           h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:2}},
             h('span',{style:{fontSize:13,fontWeight:600,color:'var(--c-soil)'}},(store.name)),
