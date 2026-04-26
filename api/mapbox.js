@@ -11,16 +11,14 @@ export default async function handler(req) {
   }
 
   const { searchParams } = new URL(req.url);
-  const path = searchParams.get('path'); // e.g. "geocoding/v5/mapbox.places/90210.json"
-  const rest = searchParams.get('params') || ''; // other query params
+  const path   = searchParams.get('path');
+  const params = searchParams.get('params') || '';
 
   if (!path) {
     return new Response('Missing path', { status: 400, headers: corsHeaders });
   }
 
-  const token = process.env.MAPBOX_TOKEN;
-  const url = `https://api.mapbox.com/${path}?${rest}&access_token=${token}`;
-
+  const url = `https://api.mapbox.com/${path}?${params}&access_token=${process.env.MAPBOX_TOKEN}`;
   const upstream = await fetch(url);
   const body = await upstream.arrayBuffer();
 

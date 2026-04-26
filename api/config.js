@@ -6,7 +6,7 @@ export default function handler() {
       supabaseUrl:  process.env.SUPABASE_URL  || '',
       supabaseKey:  process.env.SUPABASE_KEY  || '',
       mapboxToken:  process.env.MAPBOX_TOKEN  || '',
-      // STABILITY_KEY intentionally excluded — used server-side only in /api/render
+      // STABILITY_KEY intentionally excluded — server-side only
     }),
     {
       status: 200,

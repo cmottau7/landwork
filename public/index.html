@@ -15,7 +15,6 @@
   --c-sand: #C4B49A; --c-fog: #EAE4D8; --c-cream: #F7F4EE;
   --c-white: #FDFCF9; --c-leaf: #1D6B45; --c-leaf-light: #E1F0E8;
   --c-leaf-mid: #5CAF7E; --c-sun: #D4830A; --c-sun-light: #FDF0D8;
-  --c-sky: #2A6B9E; --c-sky-light: #E4EFF8;
   --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 24px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,29 +25,190 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 input { font-family: var(--font-body); }
 ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: var(--c-sand); border-radius: 3px; }
 
-/* Nav */
-.nav { padding: 12px 24px; border-bottom: 1px solid var(--c-fog); display: flex; align-items: center; justify-content: space-between; background: var(--c-white); gap: 16px; flex-shrink: 0; }
-.logo { font-family: var(--font-display); font-size: 22px; color: var(--c-leaf); }
-.back-btn { font-size: 14px; color: var(--c-leaf); font-weight: 500; }
+/* ── Shared nav ─────────────────────────────────────── */
+.nav {
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--c-fog);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--c-white);
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  min-height: 56px;
+}
+.back-btn { font-size: 14px; color: var(--c-leaf); font-weight: 500; white-space: nowrap; min-height: 44px; display: flex; align-items: center; }
 .steps { display: flex; align-items: center; gap: 8px; font-size: 13px; }
 .step-done { color: var(--c-leaf-mid); font-weight: 500; }
 .step-active { font-weight: 600; color: var(--c-soil); }
 .step-inactive { color: var(--c-sand); }
-.step-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--c-sand); display: inline-block; }
-.btn-primary { background: var(--c-leaf); color: white; padding: 10px 20px; border-radius: var(--r-md); font-size: 14px; font-weight: 500; transition: background .15s; }
+.step-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--c-sand); display: inline-block; flex-shrink: 0; }
+
+/* ── Shared buttons ─────────────────────────────────── */
+.btn-primary {
+  background: var(--c-leaf); color: white;
+  padding: 10px 20px; border-radius: var(--r-md);
+  font-size: 14px; font-weight: 500;
+  transition: background .15s; min-height: 44px;
+  white-space: nowrap;
+}
 .btn-primary:hover { background: #165533; }
 .btn-primary:disabled { opacity: .45; }
-.btn-dark { background: var(--c-soil); color: white; padding: 10px 18px; border-radius: var(--r-md); font-size: 13px; font-weight: 500; }
+.btn-dark {
+  background: var(--c-soil); color: white;
+  padding: 10px 18px; border-radius: var(--r-md);
+  font-size: 13px; font-weight: 500; min-height: 44px;
+  white-space: nowrap;
+}
 .btn-dark:hover { background: #3d3224; }
-.btn-outline { border: 1px solid var(--c-leaf); color: var(--c-leaf); padding: 8px 16px; border-radius: var(--r-md); font-size: 13px; font-weight: 500; transition: all .12s; }
+.btn-outline {
+  border: 1px solid var(--c-leaf); color: var(--c-leaf);
+  padding: 8px 16px; border-radius: var(--r-md);
+  font-size: 13px; font-weight: 500; min-height: 44px;
+  transition: all .12s; white-space: nowrap;
+}
 .btn-outline:hover { background: var(--c-leaf); color: white; }
-.btn-hd { background: #F96302; color: white; padding: 13px 20px; border-radius: var(--r-md); font-size: 15px; font-weight: 600; width: 100%; transition: opacity .1s; }
+.btn-hd {
+  background: #F96302; color: white;
+  padding: 13px 20px; border-radius: var(--r-md);
+  font-size: 15px; font-weight: 600; width: 100%;
+  transition: opacity .1s; min-height: 44px;
+}
 .btn-hd:hover { opacity: .88; }
 .pill { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
 .pill-green { background: #E1F5EE; color: #085041; }
 .pill-amber { background: #FAEEDA; color: #633806; }
 .pill-blue { background: #E6F1FB; color: #0C447C; }
 .pill-leaf { background: var(--c-leaf); color: white; }
+
+/* ── Page shell ─────────────────────────────────────── */
+.page-shell { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── Split layout (sidebar + main) ─────────────────── */
+.split-body { flex: 1; display: flex; overflow: hidden; }
+.split-sidebar {
+  width: 220px; flex-shrink: 0;
+  border-right: 1px solid var(--c-fog);
+  background: var(--c-white);
+  padding: 18px 14px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.split-main { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.filter-sidebar {
+  width: 200px; flex-shrink: 0;
+  border-right: 1px solid var(--c-fog);
+  background: var(--c-white);
+  padding: 18px 12px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.section-label {
+  font-size: 11px; font-weight: 600; color: var(--c-stone);
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px;
+}
+
+/* ── Home page ──────────────────────────────────────── */
+.home-hero {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  padding: 80px 40px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+.home-headline { font-size: clamp(32px, 5vw, 56px); line-height: 1.1; margin-bottom: 20px; }
+.home-sub { font-size: 17px; line-height: 1.65; color: var(--c-stone); margin-bottom: 32px; max-width: 440px; }
+.home-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--c-fog);
+  background: var(--c-white);
+}
+.home-step { padding: 28px 24px; border-right: 1px solid var(--c-fog); }
+.home-step:last-child { border-right: none; }
+
+/* ── Zone painter ───────────────────────────────────── */
+.painter-body { flex: 1; display: flex; overflow: hidden; }
+.painter-sidebar {
+  width: 224px; flex-shrink: 0;
+  border-right: 1px solid var(--c-fog);
+  background: var(--c-white);
+  padding: 18px 14px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.painter-canvas-area {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px; gap: 8px; background: var(--c-cream);
+}
+
+/* ── Onboarding ─────────────────────────────────────── */
+.onboarding-card {
+  background: var(--c-white);
+  border: 1px solid var(--c-fog);
+  border-radius: var(--r-xl);
+  padding: 40px;
+  max-width: 520px;
+  width: 100%;
+}
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+
+/* ── Mobile overrides ───────────────────────────────── */
+@media (max-width: 640px) {
+  /* Nav */
+  .nav { padding: 10px 14px; }
+  .steps { display: none; }
+  .btn-primary, .btn-dark { font-size: 13px; padding: 9px 14px; }
+
+  /* Home */
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px 20px 24px;
+  }
+  .home-art { display: none; }
+  .home-headline { font-size: 36px; }
+  .home-sub { font-size: 15px; margin-bottom: 24px; }
+  .home-steps { grid-template-columns: 1fr 1fr; }
+  .home-step { padding: 18px 16px; }
+
+  /* Onboarding */
+  .onboarding-card { padding: 20px; border-radius: var(--r-lg); }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Split layouts → stack */
+  .split-body { flex-direction: column; overflow: auto; }
+  .split-sidebar {
+    width: 100%; flex-direction: row; flex-wrap: wrap;
+    border-right: none; border-bottom: 1px solid var(--c-fog);
+    padding: 10px 12px; gap: 8px; overflow-y: visible; overflow-x: auto;
+  }
+  .split-main { padding: 12px; }
+  .filter-sidebar {
+    width: 100%; flex-direction: row; flex-wrap: wrap;
+    border-right: none; border-bottom: 1px solid var(--c-fog);
+    padding: 8px 12px; gap: 6px; overflow-y: visible; overflow-x: auto;
+    flex-shrink: 0;
+  }
+
+  /* Zone painter → stack */
+  .painter-body { flex-direction: column; overflow: auto; }
+  .painter-sidebar {
+    width: 100%; flex-direction: row; flex-wrap: wrap;
+    border-right: none; border-bottom: 1px solid var(--c-fog);
+    padding: 8px 12px; gap: 6px; overflow-y: visible; overflow-x: auto;
+    flex-shrink: 0; max-height: 160px;
+  }
+  .painter-canvas-area {
+    padding: 12px; justify-content: flex-start;
+  }
+}
 </style>
 </head>
 <body>
@@ -88,32 +248,13 @@ window.__sbReady = false;
 
   function runApp() {
 const { createElement: h, useState, useMemo, useRef, useCallback, createContext, useContext, useEffect } = React;
+const isMob = () => window.innerWidth <= 640;
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
-// Credentials loaded from /api/config at runtime — never hardcoded
-let SUPABASE_URL = '', SUPABASE_KEY = '', MAPBOX_TOKEN = '', STABILITY_KEY = '';
-(async function loadConfig() {
-  try {
-    const r = await fetch('/api/config');
-    if (r.ok) {
-      const c = await r.json();
-      SUPABASE_URL   = c.supabaseUrl   || '';
-      SUPABASE_KEY   = c.supabaseKey   || '';
-      MAPBOX_TOKEN   = c.mapboxToken   || '';
-      // STABILITY_KEY intentionally not sent to browser — used server-side only
-    }
-  } catch(e) { console.warn('Config load failed:', e); }
-})();
-
-// Mapbox API helper — routes through /api/mapbox proxy in production
-async function mapboxFetch(path, params='') {
-  const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost';
-  if (isLocal) {
-    return fetch(`https://api.mapbox.com/${path}?${params}&access_token=${MAPBOX_TOKEN}`);
-  }
-  const encodedParams = params ? encodeURIComponent(params) : '';
-  return fetch(`/api/mapbox?path=${encodeURIComponent(path)}&params=${encodedParams}`);
-}
+const SUPABASE_URL = '';
+const SUPABASE_KEY = '';
+const MAPBOX_TOKEN = '';
+const STABILITY_KEY = '';
 const sb = null; // Supabase persistence — wire up separately when deploying
 
 // ── PLANT DATA ───────────────────────────────────────────────────────────────
@@ -301,12 +442,12 @@ function Home(){
       h('span',{className:'logo'},'Landwork'),
       h('button',{className:'btn-primary',onClick:()=>nav('onboarding')},'Start my plan')
     ),
-    h('main',{style:{flex:1,display:'grid',gridTemplateColumns:'1fr 1fr',gap:48,alignItems:'center',padding:'80px 40px',maxWidth:1060,margin:'0 auto',width:'100%'}},
+    h('main',{className:'home-hero'},
       h('div',null,
-        h('h1',{style:{fontSize:'clamp(36px,5vw,56px)',lineHeight:1.1,marginBottom:20}},
+        h('h1',{className:'home-headline'},
           'Design your yard.',h('br'),h('em',{style:{color:'var(--c-leaf)',fontStyle:'italic'}},' Plant what thrives.')
         ),
-        h('p',{style:{fontSize:17,lineHeight:1.65,color:'var(--c-stone)',marginBottom:32,maxWidth:440}},'Enter your address, paint your zones, and get a curated plant list matched to your climate — with a one-tap order to Home Depot.'),
+        h('p',{className:'home-sub'},'Enter your address, paint your zones, and get a curated plant list matched to your climate — with a one-tap order to Home Depot.'),
         h('button',{className:'btn-primary',style:{fontSize:16,padding:'14px 32px'},onClick:()=>nav('onboarding')},'Start my plan')
       ),
       h('div',{style:{display:'flex',justifyContent:'center'}},
@@ -322,13 +463,13 @@ function Home(){
         )
       )
     ),
-    h('section',{style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',borderTop:'1px solid var(--c-fog)',background:'var(--c-white)'}},
+    h('section',{className:'home-steps'},
       ...[
         {n:'01',title:'Enter your address',body:'We detect your USDA hardiness zone and climate profile automatically.'},
         {n:'02',title:'Paint your zones',body:'Mark sun, shade, and hardscape areas on your yard grid.'},
         {n:'03',title:'Choose your plants',body:'Browse plants matched to your exact conditions and style.'},
         {n:'04',title:'Order from Home Depot',body:'Your plant list goes straight to your nearest store with one tap.'},
-      ].map(s=>h('div',{key:s.n,style:{padding:'28px 24px',borderRight:'1px solid var(--c-fog)'}},
+      ].map(s=>h('div',{key:s.n,className:'home-step'},
         h('span',{style:{display:'block',fontSize:11,fontWeight:600,color:'var(--c-leaf)',letterSpacing:'.08em',marginBottom:8}},s.n),
         h('h3',{style:{fontSize:17,marginBottom:7}},s.title),
         h('p',{style:{fontSize:13,lineHeight:1.6,color:'var(--c-stone)'}},s.body)
@@ -359,7 +500,7 @@ function Onboarding(){
       let geoCoords=null;
       try{
         const geoQuery=encodeURIComponent(input);
-        const gr=await mapboxFetch(`geocoding/v5/mapbox.places/${geoQuery}.json`, `country=US&types=address,postcode`);
+        const gr=await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${geoQuery}.json?country=US&types=address,postcode&access_token=${MAPBOX_TOKEN}`);
         const gd=await gr.json();
         if(gd.features?.[0]){const[lng,lat]=gd.features[0].center;geoCoords={lat,lng};}
       }catch(e){}
@@ -386,7 +527,7 @@ function Onboarding(){
       h('div')
     ),
     h('main',{style:{flex:1,display:'flex',alignItems:'center',justifyContent:'center',padding:40}},
-      h('div',{style:{background:'var(--c-white)',border:'1px solid var(--c-fog)',borderRadius:'var(--r-xl)',padding:40,maxWidth:520,width:'100%'}},
+      h('div',{className:'onboarding-card'},
         h('h1',{style:{fontSize:32,marginBottom:10}},'Where is your yard?'),
         h('p',{style:{fontSize:15,color:'var(--c-stone)',lineHeight:1.6,marginBottom:28}},"We'll look up your hardiness zone and climate so we can match the right plants."),
         h('div',{style:{display:'flex',gap:10,marginBottom:8}},
@@ -395,7 +536,7 @@ function Onboarding(){
         ),
         err&&h('p',{style:{fontSize:13,color:'#c0392b',marginBottom:8}},err),
         result&&h('div',{style:{marginTop:20,padding:20,background:'var(--c-leaf-light)',border:'1px solid var(--c-leaf-mid)',borderRadius:'var(--r-lg)'}},
-          h('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr 1fr',gap:12,marginBottom:16}},
+          h('div',{className:'stat-grid'},
             ...[
               {v:result.zone,l:'Hardiness zone'},
               {v:result.clim.avgRainfall+'"',l:'Rainfall / yr'},
@@ -422,12 +563,7 @@ const COLS=24, ROWS=18, CELL=26;
 // Mapbox Static API — fetch larger tile so zoom has headroom
 function aerialUrl(lat,lng,zoom,bearing){
   const w=640,h=480;
-  const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost';
-  if (isLocal) {
-    return `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/${lng},${lat},${zoom},${bearing}/${w}x${h}@2x?access_token=${MAPBOX_TOKEN}`;
-  }
-  const tilePath = `styles/v1/mapbox/satellite-streets-v12/static/${lng},${lat},${zoom},${bearing}/${w}x${h}@2x`;
-  return `/api/mapbox?path=${encodeURIComponent(tilePath)}`;
+  return `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/${lng},${lat},${zoom},${bearing}/${w}x${h}@2x?access_token=${MAPBOX_TOKEN}`;
 }
 
 function ZonePainter(){
@@ -507,10 +643,10 @@ function ZonePainter(){
       ),
       h('button',{className:'btn-dark',onClick:proceed,disabled:!painted},'Get plant matches →')
     ),
-    h('div',{style:{flex:1,display:'flex',overflow:'hidden'}},
+    h('div',{className:'painter-body'},
 
       // ── Sidebar ──────────────────────────────────────────────────────────
-      h('aside',{style:{width:224,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:'18px 14px',overflowY:'auto',display:'flex',flexDirection:'column',gap:12}},
+      h('aside',{style:{width:224,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:'12px 14px',display:'flex',flexDirection:'column',flexWrap:'nowrap',gap:10,overflowX:'visible',overflowY:'auto'}},
         h('h2',{style:{fontSize:22}},'Paint zones'),
         h('p',{style:{fontSize:13,color:'var(--c-stone)',lineHeight:1.5}},'Click or drag to paint. Use map controls to line up the aerial image first.'),
 
@@ -607,7 +743,7 @@ function ZonePainter(){
       ),
 
       // ── Canvas area ───────────────────────────────────────────────────────
-      h('div',{style:{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,gap:8,background:'var(--c-cream)'}},
+      h('div',{className:'painter-canvas-area'},
         h('div',{style:{fontSize:11,color:'var(--c-stone)',marginBottom:2,alignSelf:'flex-start'}},
           address||'Your yard',' · Each cell ≈ 1 × 1 ft'
         ),
@@ -747,8 +883,8 @@ function PlantBrowser(){
         h('button',{className:'btn-primary',onClick:()=>nav('list')},`View list (${totalPlants}) · $${totalCost.toFixed(2)} →`)
       )
     ),
-    h('div',{style:{flex:1,display:'flex',overflow:'hidden'}},
-      h('aside',{style:{width:190,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:'18px 12px',overflowY:'auto',display:'flex',flexDirection:'column',gap:18}},
+    h('div',{className:'split-body'},
+      h('aside',{style:{width:190,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:'18px 12px',display:'flex',flexDirection:'column',flexWrap:'nowrap',gap:18,overflowX:'visible',overflowY:'auto'}},
         h('h2',{style:{fontSize:20}},'Filter'),
         zones.filter(z=>z.type!=='hardscape').length>0&&h('div',null,
           h('p',{style:{fontSize:11,fontWeight:600,color:'var(--c-stone)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:6}},'Zone'),
@@ -767,12 +903,12 @@ function PlantBrowser(){
           },c.label))
         )
       ),
-      h('main',{style:{flex:1,overflowY:'auto',padding:'20px 24px'}},
+      h('main',{className:'split-main'},
         h('div',{style:{display:'flex',alignItems:'center',gap:16,marginBottom:20}},
           h('input',{style:{maxWidth:300,flex:1,padding:'9px 14px',border:'1px solid var(--c-fog)',borderRadius:'var(--r-md)',background:'var(--c-white)',color:'var(--c-soil)',fontSize:14,outline:'none'},placeholder:'Search plants...',value:search,onChange:e=>setSearch(e.target.value)}),
           h('span',{style:{fontSize:13,color:'var(--c-stone)'}},`${filtered.length} plants match`)
         ),
-        h('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(195px,1fr))',gap:14}},
+        h('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:14}},
           ...filtered.map(plant=>{
             const added=isAdded(plant.id);
             return h('div',{key:plant.id,
@@ -930,7 +1066,7 @@ function ShoppingList(){
       )
     ),
     h('div',{style:{flex:1,display:'flex',overflow:'hidden'}},
-      h('aside',{style:{width:210,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:'18px 14px',overflowY:'auto',display:'flex',flexDirection:'column',gap:14}},
+      h('aside',{style:{className:'split-sidebar'}},
         h('div',{style:{background:'var(--c-cream)',border:'1px solid var(--c-fog)',borderRadius:'var(--r-lg)',padding:14}},
           ...[{l:'Total plants',v:totalPlants},{l:'Varieties',v:selected.length},{l:'Available at HD',v:`${selected.filter(p=>p.plant.sku).length} of ${selected.length}`,c:'var(--c-leaf)'},{l:'Est. subtotal',v:'$'+totalCost.toFixed(2),big:true},{l:'In-store total',v:'$'+inStockCost.toFixed(2),c:'var(--c-leaf)'}].map((r,i)=>h('div',{key:i,style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:i<4?7:0,paddingTop:i===3?7:0,borderTop:i===3?'1px solid var(--c-fog)':0}},
             h('span',{style:{fontSize:12,color:'var(--c-stone)'}},(r.l)),
@@ -939,7 +1075,7 @@ function ShoppingList(){
         ),
         h('button',{onClick:()=>nav('store'),style:{width:'100%',background:'#F96302',color:'white',padding:'11px',borderRadius:'var(--r-md)',fontSize:13,fontWeight:600,marginTop:'auto'}},'Check store availability →')
       ),
-      h('main',{style:{flex:1,overflowY:'auto',padding:24}},
+      h('main',{className:'split-main'},
         h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:18}},
           h('h1',{style:{fontSize:28}},'Your plant list'),
           h('button',{className:'btn-outline',onClick:()=>nav('plants')},'+ Add more plants')
@@ -998,7 +1134,7 @@ function StoreAvailability(){
   async function geocode(z){
     setLoading(true);
     try{
-      const r=await mapboxFetch(`geocoding/v5/mapbox.places/${z}.json`, `country=US&types=postcode`);
+      const r=await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${z}.json?country=US&types=postcode&access_token=${MAPBOX_TOKEN}`);
       const d=await r.json();
       if(d.features?.[0]){const[lng,lat]=d.features[0].center;setUserLoc({lat,lng,zip:z});}
     }catch(e){console.error(e);}
@@ -1029,7 +1165,7 @@ function StoreAvailability(){
       h('span',{style:{fontSize:13,color:'var(--c-stone)'}},`${selected.length} varieties · $${totalCost.toFixed(2)}`)
     ),
     h('div',{style:{flex:1,display:'flex',overflow:'hidden'}},
-      h('aside',{style:{width:250,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:14,overflowY:'auto',display:'flex',flexDirection:'column',gap:10}},
+      h('aside',{style:{className:'split-sidebar'}},
         h('div',{style:{display:'flex',gap:8}},
           h('input',{defaultValue:zip,placeholder:'ZIP code',onKeyDown:e=>e.key==='Enter'&&geocode(e.target.value),style:{flex:1,padding:'8px 11px',border:'1px solid var(--c-fog)',borderRadius:'var(--r-sm)',fontSize:13,background:'var(--c-cream)',color:'var(--c-soil)',outline:'none'}}),
           h('button',{className:'btn-primary',style:{padding:'8px 12px',fontSize:12},disabled:loading,onClick:e=>geocode(e.target.previousSibling.value)},loading?'...':'Find')
@@ -1046,7 +1182,7 @@ function StoreAvailability(){
           h('div',{style:{fontSize:11,color:'var(--c-leaf)',fontWeight:500}},(store.hours))
         ))
       ),
-      h('main',{style:{flex:1,overflowY:'auto',padding:24}},
+      h('main',{className:'split-main'},
         h('div',{style:{marginBottom:18}},
           h('h1',{style:{fontSize:22,marginBottom:3}},'Home Depot — '+(active?.name)),
           h('p',{style:{fontSize:13,color:'var(--c-stone)'}},(active?.address+' · '+active?.hours))
@@ -1193,16 +1329,17 @@ async function renderWithStability(photoDataUrl, prompt, negativePrompt, onProgr
 
   onProgress && onProgress(15);
 
-  // Use /api/render proxy so the Stability key stays server-side
-  // Falls back to direct call for local file:// development
-  const apiUrl = window.location.protocol === 'file:'
-    ? 'https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image'
-    : '/api/render';
-  const fetchOpts = window.location.protocol === 'file:'
-    ? { method:'POST', headers:{'Authorization':`Bearer ${STABILITY_KEY}`,'Accept':'application/json'}, body:form }
-    : { method:'POST', body:form };
-
-  const response = await fetch(apiUrl, fetchOpts);
+  const response = await fetch(
+    'https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image',
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${STABILITY_KEY}`,
+        'Accept': 'application/json',
+      },
+      body: form,
+    }
+  );
 
   onProgress && onProgress(85);
 
@@ -1490,7 +1627,7 @@ function PlanVisualizer() {
           h('button',{onClick:()=>setShowOriginal(true), style:{...btnS,borderRadius:0,border:'none',background:showOriginal?'var(--c-soil)':'transparent',color:showOriginal?'white':'var(--c-stone)',padding:'7px 12px',fontSize:12}},'Original')
         ),
         // Stylized fallback toggle
-        (mode==='photo'||mode==='ai')&&h('button',{onClick:()=>setMode('stylized'),style:{...btnS,fontSize:12}},'Stylized view'),
+        (mode==='photo'||mode==='ai')&&h('button',{onClick:()=>setMode('stylized'),style:{...btnS}},'Stylized view'),
         h('button',{className:'btn-primary',onClick:()=>nav('store')},'Order plants →')
       )
     ),
@@ -1498,7 +1635,7 @@ function PlanVisualizer() {
     h('div',{style:{flex:1,display:'flex',overflow:'hidden'}},
 
       // ── Sidebar ─────────────────────────────────────────────────────────
-      h('aside',{style:{width:220,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:'16px 14px',overflowY:'auto',display:'flex',flexDirection:'column',gap:12}},
+      h('aside',{style:{width:220,flexShrink:0,borderRight:'1px solid var(--c-fog)',background:'var(--c-white)',padding:'16px 14px',overflowY:'auto',overflowX:'hidden',display:'flex',flexDirection:'column',flexWrap:'nowrap',gap:12,}},
         // Upload CTA if no photo
         !photoDataUrl&&h('div',{style:{padding:12,background:'#E1F5EE',border:'1px solid #5DCAA5',borderRadius:'var(--r-md)'}},
           h('p',{style:{fontSize:12,fontWeight:600,color:'#085041',marginBottom:4}},'📷 Upload a photo'),
@@ -1548,7 +1685,7 @@ function PlanVisualizer() {
       ),
 
       // ── Main canvas ──────────────────────────────────────────────────────
-      h('div',{style:{flex:1,overflowY:'auto',padding:20,display:'flex',flexDirection:'column',gap:10,alignItems:'center'}},
+      h('div',{className:'split-main',style:{display:'flex',flexDirection:'column',gap:10,alignItems:'center'}},
 
         h('p',{style:{fontSize:12,color:'var(--c-stone)',alignSelf:'flex-start'}},
           mode==='ai'&&!showOriginal ? '✦ AI photorealistic render — plants at mature size' :
@@ -1562,7 +1699,7 @@ function PlanVisualizer() {
               h('img',{src:aiResult,alt:'AI landscape render',style:{width:'100%',display:'block'}})
             )
           : h('div',{style:{position:'relative',width:'100%',maxWidth:RW,borderRadius:'var(--r-lg)',overflow:'hidden',border:'1px solid var(--c-sand)'}},
-              h('svg',{viewBox:`0 0 ${RW} ${RH}`,style:{display:'block',width:'100%'}},
+              h('svg',{viewBox:`0 0 ${RW} ${RH}`,style:{display:'block',width:'100%',maxWidth:'100vw'}},
                 // Background
                 mode==='photo'&&photoDataUrl
                   ? h('image',{key:'photo',href:photoDataUrl,x:0,y:0,width:RW,height:RH,preserveAspectRatio:'xMidYMid slice'})
